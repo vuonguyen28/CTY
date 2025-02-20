@@ -1,0 +1,29 @@
+
+<div ng-controller="MainController" >
+    Sort: <select ng-model="sortColumn" style="margin-top: 100px;">
+        <option value="title">Name ASC</option>
+        <option value="-title">Name DESC</option>
+        <option value="price">Price ASC</option>
+        <option value="-price">Price DESC</option>
+        <option value="publishers">Publishers ASC</option>
+        <option value="-publishers">Publishers DESC</option>
+    </select>
+    <div class="wrapper-box">
+        <div ng-repeat="book in books | orderBy:sortColumn" class="book-container">
+            <div class="book-card">
+                <a href="#">
+                    <img class="book-image" ng-src="{{ book.image_url }}" alt="{{ book.title }}" />
+                </a>
+                <div class="book-content">
+                    <a href="#">
+                        <h5 class="book-title">{{book.title | uppercase}}</h5>
+                    </a>
+                    <div class="book-footer">
+                        <span class="book-price">{{book.price | currency : '':0}}</span>
+                        <a href="#" class="book-button"><i class="fa-solid fa-cart-shopping"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
