@@ -1,0 +1,65 @@
+<div ng-controller="MainController" >
+    Sort: <select ng-model="sortColumn" style="margin-top: 100px;">
+        <option value="title">Name ASC</option>
+        <option value="-title">Name DESC</option>
+        <option value="price">Price ASC</option>
+        <option value="-price">Price DESC</option>
+        <option value="publishers">Publishers ASC</option>
+        <option value="-publishers">Publishers DESC</option>
+    </select>
+
+    
+    <form class="max-w-md mx-auto">   
+        <label for="default-search" class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label>
+        <div class="relative">
+            <input ng-model="searchText" type="search" id="default-search" class="block w-full p-4 ps-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Search..." required />
+            <button type="submit" class="text-white absolute end-2.5 bottom-2.5 bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Search</button>
+        </div>
+    </form>
+
+    <div class="wrapper-box">
+        <div ng-repeat="book in books | orderBy:sortColumn | filter:searchText" class="book-container" >
+            <div class="book-card">
+                <div class="book-img_box">
+                    <img class="book-image_item" ng-src="{{ book.image_url }}" alt="{{ book.title }}" />
+                </div>
+                <div class="book-content">
+                    <a href="#">
+                        <h5 class="book-title">{{book.title | uppercase}}</h5>
+                    </a>
+                    <div class="book-footer">
+                        <input hidden value="">
+                        <span class="book-price">{{book.price | currency : '':0}}</span>
+                        <button ng-click="getBookByID(book.id)"  class="book-button"><i class="fa-solid fa-cart-shopping"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="bookModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Chi tiết sách</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div>
+                        <img ng-src="{{book.image_url}}" alt="sdwer">
+                    </div>
+                    <p><b>Tên sách:</b> {{ book.title }}</p>
+                    <p><b>Tác giả:</b> {{ book.description }}</p>
+                    <p><b>Giá:</b> {{ book.price | currency:'VND ' }}</p>
+                    <p><b>Mô tả:</b> {{ book.description }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" style="color: black;">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>    

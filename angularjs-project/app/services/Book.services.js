@@ -5,7 +5,14 @@ app.service("BookService", function ($http, API_URL) {
         return $http.get(apiUrl)
             .then(response => response.data)
             .catch(error => {
-                console.error("Lỗi khi gọi API:", error);
+                throw error;
+            });
+    };
+    this.getBookByID = function(id) {
+        console.log("id data:", id)
+        return $http.get(apiUrl + "/" + id) 
+            .then(response => response.data)
+            .catch(error => {
                 throw error;
             });
     };
