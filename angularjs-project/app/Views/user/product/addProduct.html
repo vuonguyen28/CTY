@@ -1,0 +1,59 @@
+<div ng-controller="bookController" class="container mt-4">
+  
+    <h2 class="text-center text-primary mb-4">Thêm Sách Mới</h2>
+    <button ng-click="goToHome()" class="btn btn-primary"><- Quay lại</button>
+
+    <form name="myForm"  ng-submit="addBook()" class="row g-3" enctype="multipart/form-data" novalidate >
+        <div class="col-md-6">
+            <label for="title" class="form-label fw-bold">Tên sách</label>
+            <input type="text" id="title" name="name" class="form-control" ng-model="book.title" required  >
+        </div>
+
+        <div class="col-md-6">
+            <label for="price" class="form-label fw-bold">Giá (VND)</label>
+            <input type="number" id="price" class="form-control" ng-model="book.price" min="0" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="published_year" class="form-label fw-bold">Năm xuất bản</label>
+            <input type="number" id="published_year" class="form-control" ng-model="book.published_year" min="1900" max="2025" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="page_count" class="form-label fw-bold">Số trang</label>
+            <input type="number" id="page_count" class="form-control" ng-model="book.page_count" min="1" required>
+        </div>
+
+        <div class="col-md-6">
+            <label for="category" class="form-label fw-bold">Danh mục</label>
+            <select id="category" class="form-select" ng-model="book.category_id" ng-options="c.id as c.name for c in categories" required>
+                <option value="" disabled>Chọn danh mục</option>
+            </select>
+        </div>
+
+        <div class="col-md-6">
+            <label for="publisher" class="form-label fw-bold">Nhà xuất bản</label>
+            <select id="publisher" class="form-select" ng-model="book.publisher_id" ng-options="p.id as p.name for p in publishers" required>
+                <option value="" disabled>Chọn nhà xuất bản</option>
+            </select>
+        </div>
+
+        <!-- <div class="col-md-12">
+            <label for="image" class="form-label fw-bold">Hình ảnh</label>
+            <input type="file" id="image" class="form-control" accept="image/*" ngf-select ng-model="book.imageFile" ng-change="previewImage()" required>
+            <div class="mt-2 text-center">
+                <img ng-src="{{book.imagePreview}}" class="img-thumbnail" ng-if="book.imagePreview" style="width: 150px; height: 200px;">
+            </div>
+        </div> -->
+
+        <div class="col-md-12">
+            <label for="description" class="form-label fw-bold">Mô tả</label>
+            <textarea id="description" class="form-control" ng-model="book.description" rows="3" required></textarea>
+        </div>
+
+        <div class="col-md-12 text-center">
+            <button type="submit" class="btn btn-success px-4">Thêm Sách</button>
+            <button type="button" class="btn btn-secondary ms-2" ng-click="resetForm()">Làm mới</button>
+        </div>
+    </form>
+</div>
