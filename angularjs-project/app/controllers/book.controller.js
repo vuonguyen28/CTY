@@ -39,19 +39,45 @@ app.controller(
       $location.path("/");
     };
 
+    //Show modal edit book
+    $scope.showModalEditProduct = function(id){
+      BookService.getBookByID(id)
+      .then(function (data) {
+        $scope.bookEdit = data;
+        console.log("Dữ liệu sách theo ID:", data);
+
+        //Show modal
+        var myModalEditBook = new bootstrap.Modal(
+          document.getElementById("editBook"),{}
+        )
+        myModalEditBook.show();
+        //Delete backdrop
+        document
+          .getElementById("editBook")
+          .addEventListener("hidden.bs.modal", function () {
+            document
+              .querySelectorAll(".modal-backdrop")
+              .forEach((el) => el.remove());
+          });
+      })
+      .catch(function (error) {
+        console.error("Lỗi khi tải sách theo ID:", error);
+      });
+    };
+
     $scope.getBookByID = function (id) {
       BookService.getBookByID(id)
         .then(function (data) {
           $scope.book = data;
           console.log("Dữ liệu sách theo ID:", data);
 
-          // Hiển thị modal
+          //Show modal
           var myModal = new bootstrap.Modal(
             document.getElementById("bookModal"),
             {}
           );
           myModal.show();
-          // Khi modal đóng thì xóa backdrop
+          //Delete backdrop
           document
             .getElementById("bookModal")
             .addEventListener("hidden.bs.modal", function () {
@@ -130,5 +156,26 @@ app.controller(
       $scope.imageFile = null;
       $scope.book.imagePreview = null;
     };
+
+    //edit product
+    $scope.editProductByID = function(bookData){
+      if(!bookData || !bookData.id ){
+        alert("khong tim thay danh sach cap nhat")
+        
+      }
+
+      var formData = new FormData();
+        formData.append("title", $scope.book.title);
+        formData.append("price", $scope.book.price);
+
+        BookService.updateBook($scope.book.id, formData)
+          .then(function (response) {
+            console.log("Cập nhật sách thành công:", response);
+            alert("Cập nhật sách thành công!");
+          })
+          .catch(function (error) {
+            alert("Cập nhật thất bại!");
+          });
+        }
   }
 );

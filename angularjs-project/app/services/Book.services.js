@@ -30,4 +30,13 @@ app.service("BookService", function ($http, API_URL) {
         throw error;
       });
   };
+  this.updateBook = function(id,bookData){
+    return $http
+    .put(apiUrl + "/" + id, bookData ,{
+      headers: { "Content-Type": undefined },
+      transformRequest: angular.identity,
+    })
+    .then((response)=> response.data)
+    .catch((error)=>{throw error;})
+  }
 });

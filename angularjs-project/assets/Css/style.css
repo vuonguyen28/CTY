@@ -74,3 +74,8 @@ button {
 .img-thumbnail:hover {
     transform: scale(1.05);
 }
+
+
+.form-label{
+    float: left;
+}

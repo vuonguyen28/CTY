@@ -26,7 +26,7 @@
         </div>
     </div>
 
-    <!-- Bảng danh sách sách -->
+
     <div class="table-responsive">
         <table class="table table-hover align-middle">
             <thead class="table-dark text-light">
@@ -48,15 +48,19 @@
                     <td class="text-danger fw-bold">{{ book.price | currency : '':0 }} VND</td>
                     <td>
                         <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#bookModal" ng-click="getBookByID(book.id)">
-                            <i class="fa-solid fa-eye"></i> Xem chi tiết
+                            <i class="fa-solid fa-eye"></i> Detail
                         </button>
+                        <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editBook" ng-click="showModalEditProduct(book.id)">
+                            Edit
+                        </button>
+                       
                     </td>
                 </tr>
             </tbody>
         </table>
     </div>
 
-    <!-- Modal Chi Tiết Sách -->
+    <!-- Modal detail book -->
     <div class="modal fade" id="bookModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -74,6 +78,88 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="color: rgb(160, 157, 0);">Đóng</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- Modal update book
+     <div class="modal fade" id="editBook" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Chi tiết sách</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body text-center">
+                    <img ng-src="{{book.image_url}}" class="img-fluid rounded shadow-sm mb-3" alt="{{book.title}}" style="max-width: 300px; margin: 0 auto;">
+                    <p><b>Tên sách:</b> {{ book.title }}</p>
+                    <p ng-repeat="author in book.authors"><b>Tác giả:</b> {{ author.name }}{{$last ? '' : ', '}}</p>
+                    <p><b>Giá:</b> <span class="text-danger fw-bold">{{ book.price | currency:'VND ' }}</span></p>
+                    <p><b>Mô tả:</b> {{ book.description }}</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="color: rgb(160, 157, 0);">Đóng</button>
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+       <!-- Modal Update Book -->
+       <div class="modal fade" id="editBook" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header bg-primary text-white">
+                    <h5 class="modal-title">Chỉnh sửa sách</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form ng-submit="updateBook()">
+                    <div class="modal-body">
+                        <div class="mb-3 text-center">
+                            <img width="10px"  ng-src="{{bookEdit.image_url}}" class="img-fluid rounded shadow-sm mb-3"
+                                alt="{{bookEdit.title}}" style="max-width: 300px; margin: 0 auto;">
+                            <input type="file" class="form-control" ng-model="book.imageFile" file-input>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Tên sách</label>
+                            <input type="text" class="form-control" id="title" ng-model="bookEdit.title" required>
+                        </div>
+
+                        <!-- <div class="mb-3">
+                            <label for="authors" class="form-label">Tác giả</label>
+                            <input type="text" class="form-control" id="authors" ng-model="bookEdit.authors" required>
+                        </div> -->
+
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Giá</label>
+                            <input type="text" class="form-control" id="price" ng-model="bookEdit.price" required>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Mô tả</label>
+                            <textarea class="form-control" id="description" rows="3" ng-model="bookEdit.description"></textarea>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="category" class="form-label">Danh mục</label>
+                            <select class="form-control" id="category" ng-model="bookEdit.category_id" ng-options="cat.id as cat.name for cat in categories">
+                                <option value="">Chọn danh mục</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="publisher" class="form-label">Nhà xuất bản</label>
+                            <select class="form-control" id="publisher" ng-model="bookEdit.publisher_id" ng-options="pub.id as pub.name for pub in publishers">
+                                <option value="">Chọn nhà xuất bản</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-success" style="color: beige; background-color: rgb(0, 105, 0);">Cập nhật</button>
+                        <button type="button" class="btn btn-secondary" style="color: beige; background-color: rgb(117, 0, 172);" data-bs-dismiss="modal">Đóng</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
