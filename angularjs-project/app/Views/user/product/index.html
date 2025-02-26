@@ -25,6 +25,14 @@
             </div>
         </div>
     </div>
+    <!-- Bộ lọc -->
+    <div class="row align-items-center mb-3">
+        <div class="col-md-6">
+            <label for="sort" class="form-label fw-bold">loc theo gia</label>
+           <input type="range" ng-model="priceFilter" min="10000" max="600000" step="10000" class="form-range">
+           <p> lọc theo giá: {{ priceFilter | currency : '': 0}}</p>
+        </div>
+    </div>
 
 
     <div class="table-responsive">
@@ -32,18 +40,18 @@
             <thead class="table-dark text-light">
                 <tr>
                     <th>#</th>
-                    <!-- <th>Hình ảnh</th> -->
+                    <th>Hình ảnh</th>
                     <th>Tên sách</th>
                     <th>Giá</th>
                     <th>Hành động</th>
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="book in books | orderBy:sortColumn | filter:searchText">
+                <tr ng-repeat="book in books | orderBy:sortColumn | filter:searchText | filter: priceFilterFn">
                     <td>{{$index + 1}}</td>
-                    <!-- <td>
+                    <td>
                         <img ng-src="{{book.image_url}}" alt="{{book.title}}" class="img-thumbnail rounded shadow-sm" style="width: 80px; height: 100px;">
-                    </td> -->
+                    </td>
                     <td class="text-uppercase fw-semibold">{{ book.title }}</td>
                     <td class="text-danger fw-bold">{{ book.price | currency : '':0 }} VND</td>
                     <td>
@@ -105,7 +113,7 @@
     </div> -->
 
        <!-- Modal Update Book -->
-       <div class="modal fade" id="editBook" tabindex="-1" aria-hidden="true">
+       <div class="modal fade" id="editBook" tabindex="-1" aria-hidden="true" ng-submit="updateBookByID()">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header bg-primary text-white">

@@ -39,6 +39,12 @@ app.controller(
       $location.path("/");
     };
 
+    //price filter
+    $scope.priceFilter = 100000;
+    $scope.priceFilterFn = function (book){
+      return book.price <= $scope.priceFilter;
+    }
+
     //Show modal edit book
     $scope.showModalEditProduct = function(id){
       BookService.getBookByID(id)
@@ -94,18 +100,21 @@ app.controller(
     $scope.book = {};
     $scope.imageFile = null;
 
-    // // Xử lý khi chọn ảnh
-    // $scope.previewImage = function () {
-    //   if ($scope.book.imageFile) {
-    //     let reader = new FileReader();
-    //     reader.onload = function (e) {
-    //       $scope.$apply(() => {
-    //         $scope.book.imagePreview = e.target.result;
-    //       });
-    //     };
-    //     reader.readAsDataURL($scope.book.imageFile);
-    //   }
-    // };
+    // Xử lý khi chọn ảnh
+    $scope.previewImage = function () {
+      if ($scope.book.imageFile) {
+        let reader = new FileReader();
+        reader.onload = function (e) {
+          $scope.$apply(() => {
+            $scope.book.imagePreview = e.target.result;
+          });
+        };
+        reader.readAsDataURL($scope.book.imageFile);
+      }
+    };
+
+  
+    
 
     $scope.book = {};
     $scope.imageFile = null;
@@ -126,12 +135,12 @@ app.controller(
         formData.append("description", $scope.book.description);
 
         // Nếu có file ảnh, bạn có thể thêm nó vào FormData (nếu cần)
-        // if ($scope.book.imageFile) {
-        //   formData.append("image", $scope.book.imageFile);
-        //   console.log("Đã gán file ảnh:", $scope.book.imageFile);
-        // } else {
-        //   console.warn("Không có file ảnh!");
-        // }
+        if ($scope.book.imageFile) {
+          formData.append("image", $scope.book.imageFile);
+          console.log("Đã gán file ảnh:", $scope.book.imageFile);
+        } else {
+          console.warn("Không có file ảnh!");
+        }
 
         // Gọi hàm addBook từ BookService
         BookService.addBook(formData)

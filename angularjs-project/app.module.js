@@ -14,15 +14,18 @@ app.config(function ($routeProvider) {
     });
 });
 
-app.directive('fileInput', function(){
+app.directive('fileInput', function() {
   return {
-    restrict: 'A',
-    link: function(scope, element, attrs){
-      element.bind('change', function() { 
-        scope.$apply(function(){
-          scope.bookEdit.imageFile = element[0].files[0];
-        });
-      });
-    }
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+          element.bind('change', function(event) {
+              var file = event.target.files[0];
+              scope.$apply(function() {
+                  scope.book.imageFile = file;
+                  scope.previewImage();
+              });
+          });
+      }
   };
 });
+
